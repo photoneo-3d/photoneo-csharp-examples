@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -848,11 +849,22 @@ class Program {
             Console.WriteLine("    Frame Acquisition duration: {0} ms", frameInfo.FrameDuration);
             Console.WriteLine("    Frame Computation duration: {0} ms", frameInfo.FrameComputationDuration);
             Console.WriteLine("    Frame Transfer duration: {0} ms", frameInfo.FrameTransferDuration);
+            Console.WriteLine("    Frame Acquisition time (PTP): {0}", frameInfo.FrameStartTime.TimeUTC);
             Console.WriteLine("    Sensor Position: [{0}; {1}; {2}]",
                 (double)frameInfo.SensorPosition.x,
                 (double)frameInfo.SensorPosition.y,
                 (double)frameInfo.SensorPosition.z);
             Console.WriteLine("    Total scan count: {0}", frameInfo.TotalScanCount);
+            Console.WriteLine("    Color Camera position: [{0}; {1}; {2}]",
+                (double)frameInfo.ColorCameraPosition.x,
+                (double)frameInfo.ColorCameraPosition.y,
+                (double)frameInfo.ColorCameraPosition.z);
+            Console.WriteLine("    Current Camera position: [{0}; {1}; {2}]",
+                (double)frameInfo.CurrentCameraPosition.x,
+                (double)frameInfo.CurrentCameraPosition.y,
+                (double)frameInfo.CurrentCameraPosition.z);
+            Console.WriteLine("    Filename path: {0}", frameInfo.FilenamePath);
+            Console.WriteLine("    HW ID: {0}", frameInfo.HWIdentification);
         }
 
         public void PrintFrameData(Frame frame)
@@ -970,6 +982,9 @@ class Program {
                 Enum.GetName(typeof(PhoXiSurfaceSmoothness.Value), (int) processingSettings.SurfaceSmoothness));
             Console.WriteLine("    NormalsEstimationRadius: {0}", processingSettings.NormalsEstimationRadius);
             Console.WriteLine("    InterreflectionsFiltering: {0}", processingSettings.InterreflectionsFiltering);
+            Console.WriteLine("    PatternCodeCorrection: {0}", processingSettings.PatternCodeCorrection);
+            Console.WriteLine("    GlareCompensation: {0}", processingSettings.GlareCompensation);
+            Console.WriteLine("    HoleFilling: {0}", processingSettings.HoleFilling);
         }
 
         public void PrintCoordinatesSettings(PhoXiCoordinatesSettings coordinatesSettings)
@@ -982,9 +997,15 @@ class Program {
             Console.WriteLine("    CoordinateSpace: {0}",
                 Enum.GetName(typeof(PhoXiCoordinateSpace.Value), (int) coordinatesSettings.CoordinateSpace));
             Console.WriteLine("    RecognizeMarkers: {0}", coordinatesSettings.RecognizeMarkers);
+            Console.WriteLine("    SaveTransformations: {0}", coordinatesSettings.SaveTransformations);
             Console.WriteLine("    MarkerScale: {0} x {1}",
                 coordinatesSettings.MarkersSettings.MarkerScale.Width,
                 coordinatesSettings.MarkersSettings.MarkerScale.Height);
+            Console.WriteLine("    CameraSpace: {0}",
+                Enum.GetName(typeof(PhoXiCameraSpace.Value), (int)coordinatesSettings.CameraSpace));
+            PrintVirtualCamera("CurrentCamera", coordinatesSettings.CurrentCamera);
+            PrintVirtualCamera("CurrentPrimaryCamera", coordinatesSettings.CurrentPrimaryCamera);
+            PrintVirtualCamera("CurrentColorCamera", coordinatesSettings.CurrentColorCamera);
         }
 
         public void PrintCalibrationSettings(PhoXiCalibrationSettings calibrationSettings, string source)
@@ -996,39 +1017,7 @@ class Program {
                 calibrationSettings.PixelSize.Width,
                 calibrationSettings.PixelSize.Height);
             PrintMatrix("    CameraMatrix", calibrationSettings.CameraMatrix);
-            Console.WriteLine("    DistortionCoefficients: ");
-            Console.WriteLine("      Format is the following: ");
-            Console.WriteLine("      (k1, k2, p1, p2[, k3[, k4, k5, k6[, s1, s2, s3, s4[, tx, ty]]]])");
-
-            var distCoeffs = calibrationSettings.GetDistortionCoefficients();
-            if (distCoeffs.Length == 0)
-            {
-                Console.WriteLine("Distortion coefficients are empty");
-            }
-            else
-            {
-
-                var currentDistCoeffs = "(" + distCoeffs[0];
-                var brackets = 0;
-                for (var i = 1; i < distCoeffs.Length; ++i)
-                {
-                    if (i == 4 || i == 5 || i == 8 || i == 12 || i == 14)
-                    {
-                        currentDistCoeffs += "[";
-                        ++brackets;
-                    }
-
-                    currentDistCoeffs += ", " + distCoeffs[i];
-                }
-
-                for (var j = 0; j < brackets; ++j)
-                {
-                    currentDistCoeffs += "]";
-                }
-
-                currentDistCoeffs += ")";
-                Console.WriteLine("      {0}", currentDistCoeffs);
-            }
+            PrintDistortionCoefficients("DistortionCoefficients", calibrationSettings.GetDistortionCoefficients());
         }
 
         public void PrintCoordinateTransformation(PhoXiCoordinateTransformation transformation)
@@ -1119,15 +1108,15 @@ class Program {
             else
             {
                 Console.WriteLine("{0}: ", name);
-                Console.WriteLine("      [{0}, {1}, {2}",
+                Console.WriteLine("      [{0}, {1}, {2}]",
                     (double)matrix[0, 0],
                     (double)matrix[0, 1],
                     (double)matrix[0, 2]);
-                Console.WriteLine("      [{0}, {1}, {2}",
+                Console.WriteLine("      [{0}, {1}, {2}]",
                     (double)matrix[1, 0],
                     (double)matrix[1, 1],
                     (double)matrix[1, 2]);
-                Console.WriteLine("      [{0}, {1}, {2}",
+                Console.WriteLine("      [{0}, {1}, {2}]",
                     (double)matrix[2, 0],
                     (double)matrix[2, 1],
                     (double)matrix[2, 2]);
@@ -1143,22 +1132,79 @@ class Program {
             else
             {
                 Console.WriteLine("{0}: ", name);
-                Console.WriteLine("      [{0}, {1}, {2}",
+                Console.WriteLine("      [{0}, {1}, {2}]",
                     (double)matrix[0, 0],
                     (double)matrix[0, 1],
                     (double)matrix[0, 2]);
-                Console.WriteLine("      [{0}, {1}, {2}",
+                Console.WriteLine("      [{0}, {1}, {2}]",
                     (double)matrix[1, 0],
                     (double)matrix[1, 1],
                     (double)matrix[1, 2]);
-                Console.WriteLine("      [{0}, {1}, {2}",
+                Console.WriteLine("      [{0}, {1}, {2}]",
                     (double)matrix[2, 0],
                     (double)matrix[2, 1],
                     (double)matrix[2, 2]);
             }
         }
 
-        public PhoXiExamples()
+        public void PrintVirtualCamera(string name, PhoXiVirtualCamera camera)
+        {
+            Console.WriteLine("{0}: ", name);
+            Console.WriteLine("    ProjectionMode: {0}",
+                Enum.GetName(typeof(PhoXiProjectionMode.Value), (int)camera.ProjectionMode));
+            Console.WriteLine("    OrthogonalSettings:");
+            Console.WriteLine("       Width: {0}", camera.OrthogonalSettings.Width);
+            Console.WriteLine("      Height: {0}", camera.OrthogonalSettings.Height);
+            Console.WriteLine("    Resolution:");
+            Console.WriteLine("       Width: {0}", camera.Resolution.Width);
+            Console.WriteLine("      Height: {0}", camera.Resolution.Height);
+            Console.WriteLine("CoordinateTransformation:");
+            PrintCoordinateTransformation(camera.WorldToCameraCoordinates);
+            PrintPerspectiveSettings(camera.PerspectiveSettings);
+        }
+
+        public void PrintPerspectiveSettings(PhoXiPerspectiveSettings settings)
+        {
+            PrintMatrix("PerspectiveSettings", settings.CameraMatrix);
+            PrintDistortionCoefficients("DistortionCoefficients", settings.GetDistortionCoefficients());
+        }
+
+        public void PrintDistortionCoefficients(string name, double[] distCoeffs)
+        {
+            Console.WriteLine("    {0}: ", name);
+            Console.WriteLine("      Format is the following: ");
+            Console.WriteLine("      (k1, k2, p1, p2[, k3[, k4, k5, k6[, s1, s2, s3, s4[, tx, ty]]]])");
+
+            if (distCoeffs.Length == 0)
+            {
+                Console.WriteLine("Distortion coefficients are empty");
+            }
+            else
+            {
+                var currentDistCoeffs = "(" + distCoeffs[0];
+                var brackets = 0;
+                for (var i = 1; i < distCoeffs.Length; ++i)
+                {
+                    if (i == 4 || i == 5 || i == 8 || i == 12 || i == 14)
+                    {
+                        currentDistCoeffs += "[";
+                        ++brackets;
+                    }
+
+                    currentDistCoeffs += ", " + distCoeffs[i];
+                }
+
+                for (var j = 0; j < brackets; ++j)
+                {
+                    currentDistCoeffs += "]";
+                }
+
+                currentDistCoeffs += ")";
+                Console.WriteLine("      {0}", currentDistCoeffs);
+            }
+        }
+
+public PhoXiExamples()
         {
             try
             {

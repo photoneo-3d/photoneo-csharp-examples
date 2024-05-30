@@ -36,13 +36,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Reference Include="WrapperCSharp_msvc14_Debug_1.11.0.dll">
-      <HintPath>WrapperCSharp_msvc14_Debug_1.11.0.dll</HintPath>
+    <Reference Include="WrapperCSharp_msvc14_Debug_1.14.0.dll">
+      <HintPath>WrapperCSharp_msvc14_Debug_1.14.0.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Reference Include="WrapperCSharp_msvc14_Release_1.11.0.dll">
-      <HintPath>WrapperCSharp_msvc14_Release_1.11.0.dll</HintPath>
+    <Reference Include="WrapperCSharp_msvc14_Release_1.14.0.dll">
+      <HintPath>WrapperCSharp_msvc14_Release_1.14.0.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -96,18 +96,18 @@
     </None>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Content Include="PhoXi_API_msvc14_Debug_1.11.0.dll">
+    <Content Include="PhoXi_API_msvc14_Debug_1.14.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="WrapperCSharp_msvc14_Debug_1.11.0.dll">
+    <Content Include="WrapperCSharp_msvc14_Debug_1.14.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Content Include="PhoXi_API_msvc14_Release_1.11.0.dll">
+    <Content Include="PhoXi_API_msvc14_Release_1.14.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="WrapperCSharp_msvc14_Release_1.11.0.dll">
+    <Content Include="WrapperCSharp_msvc14_Release_1.14.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

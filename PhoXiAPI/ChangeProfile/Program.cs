@@ -24,7 +24,7 @@ class Program
         public void ConnectPhoXiDeviceBySerialExample()
         {
             _factory = new PhoXiFactory();
-            Console.WriteLine("\nPlease enter the Hardware Identification Number (for example 'YYYY-MM-###-LC#'): ");
+            Console.WriteLine("\nPlease enter the Hardware Identification Number (for example 'XXX-YYY'): ");
             var hardwareIdentification = Console.ReadLine();
             PhoXiTimeout timeout = PhoXiTimeout.Value.ZeroTimeout;
             _phoXiDevice = _factory.CreateAndConnect(hardwareIdentification, timeout);

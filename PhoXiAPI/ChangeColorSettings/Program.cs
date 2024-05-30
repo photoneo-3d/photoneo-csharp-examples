@@ -23,7 +23,7 @@ class Program {
         public void ConnectPhoXiDeviceBySerialExample()
         {
             _factory = new PhoXiFactory();
-            Console.WriteLine("\nPlease enter the Hardware Identification Number (for example 'YYYY-MM-###-LC#'): ");
+            Console.WriteLine("\nPlease enter the Hardware Identification Number (for example 'XXX-YYY'): ");
             var hardwareIdentification = Console.ReadLine();
             PhoXiTimeout timeout = PhoXiTimeout.Value.ZeroTimeout;
             _phoXiDevice = _factory.CreateAndConnect(hardwareIdentification, timeout);
@@ -51,7 +51,7 @@ class Program {
 
             //Retrieving the current ColorSettings
             var ColorSettings = _phoXiDevice.ColorSettings;
-            //Check if the Current Color Settings have been retrieved succesfully
+            //Check if the Current Color Settings have been retrieved successfully
             if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
@@ -61,7 +61,7 @@ class Program {
 
             //Get all SupportedColorCapturingModes
             var CapturingModes = _phoXiDevice.SupportedColorCapturingModes;
-            //Check if the SupportedColorCapturingModes have been retrieved succesfully
+            //Check if the SupportedColorCapturingModes have been retrieved successfully
             if (!_phoXiDevice.SupportedColorCapturingModesFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.SupportedColorCapturingModesFeature.GetLastErrorMessage());
@@ -69,7 +69,7 @@ class Program {
             //Pick a capturing mode
             ColorSettings.CapturingMode = CapturingModes[0];
             _phoXiDevice.ColorSettings = ColorSettings;
-            //Check if the Color Settings have been changed succesfully
+            //Check if the Color Settings have been changed successfully
             if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
@@ -77,7 +77,7 @@ class Program {
 
             //Get Supported Iso values
             var SupportedIsoValues = _phoXiDevice.SupportedColorIso;
-            //Check if the SupportedColorIso have been retrieved succesfully
+            //Check if the SupportedColorIso have been retrieved successfully
             if (!_phoXiDevice.SupportedColorIsoFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.SupportedColorIsoFeature.GetLastErrorMessage());
@@ -85,7 +85,7 @@ class Program {
             //Pick a Iso value
             ColorSettings.Iso = SupportedIsoValues[4];
             _phoXiDevice.ColorSettings = ColorSettings;
-            //Check if the Color Settings have been changed succesfully
+            //Check if the Color Settings have been changed successfully
             if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
@@ -93,7 +93,7 @@ class Program {
 
             //Get Supported Exposure values
             var SupportedExposureValues = _phoXiDevice.SupportedColorExposure;
-            //Check if the SupportedColorExposure have been retrieved succesfully
+            //Check if the SupportedColorExposure have been retrieved successfully
             if (!_phoXiDevice.SupportedColorExposureFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.SupportedColorExposureFeature.GetLastErrorMessage());
@@ -101,7 +101,7 @@ class Program {
             //Pick a Exposure value
             ColorSettings.Exposure = SupportedExposureValues[2];
             _phoXiDevice.ColorSettings = ColorSettings;
-            //Check if the Color Settings have been changed succesfully
+            //Check if the Color Settings have been changed successfully
             if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
@@ -109,17 +109,27 @@ class Program {
 
             //Get Supported White Presets
             var SupportedColorWhiteBalancePresets = _phoXiDevice.SupportedColorWhiteBalancePresets;
-            //Check if the SupportedColorExposure have been retrieved succesfully
+            //Check if the SupportedColorExposure have been retrieved successfully
             if (!_phoXiDevice.SupportedColorWhiteBalancePresetsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.SupportedColorWhiteBalancePresetsFeature.GetLastErrorMessage());
             }
+
+            //Change the RemoveFalseColors
+            ColorSettings.RemoveFalseColors = !ColorSettings.RemoveFalseColors;
+            _phoXiDevice.ColorSettings = ColorSettings;
+            //Check if the Color Settings have been changed successfully
+            if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
+            {
+                throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
+            }
+
             //Pick a capturing mode
             PhoXiWhiteBalance whiteBalance = ColorSettings.WhiteBalance;
             whiteBalance.Preset = SupportedColorWhiteBalancePresets[1];
             ColorSettings.WhiteBalance = whiteBalance;
             _phoXiDevice.ColorSettings = ColorSettings;
-            //Check if the Color Settings have been changed succesfully
+            //Check if the Color Settings have been changed successfully
             if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
