@@ -19,14 +19,14 @@ if(NOT PHO_API_CMAKE_CONFIG_PATH)
     set(PHO_API_CMAKE_CONFIG_PATH "$ENV{PHOXI_CONTROL_PATH}")
 endif()
 
-find_package(PhoXi REQUIRED CONFIG PATHS "${PHO_API_CMAKE_CONFIG_PATH}")
-        
-if(NOT PHO_BUILT_IN_API_IN_EXAMPLES)
-    target_link_libraries(MaintenanceCommandsExample_CSharp 
-        ${PHOXI_API_MANAGED_DLL_RELEASE_PER_COMPILER})
+if(PHO_BUILT_IN_API_IN_EXAMPLES)
+    set_property(TARGET ${PROJECT_NAME} PROPERTY 
+        VS_DOTNET_REFERENCE_WrapperCSharp ${PHOXI_MANAGED_DLL_FOR_EXAMPLE})
+else()
+    find_package(PhoXi REQUIRED CONFIG PATHS "${PHO_API_CMAKE_CONFIG_PATH}")
     
-    set_property(TARGET MaintenanceCommandsExample_CSharp PROPERTY 
-        VS_DOTNET_REFERENCE_WrapperCSharp ${PHOXI_API_MANAGED_DLL_RELEASE_PER_COMPILER})
+    set_property(TARGET ${PROJECT_NAME} PROPERTY 
+        VS_DOTNET_REFERENCE_WrapperCSharp ${PHOXI_API_MANAGED_DLL})
 endif()
 
 # Set the .NET Framework version for the executable.

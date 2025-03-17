@@ -1006,6 +1006,12 @@ class Program {
             PrintVirtualCamera("CurrentCamera", coordinatesSettings.CurrentCamera);
             PrintVirtualCamera("CurrentPrimaryCamera", coordinatesSettings.CurrentPrimaryCamera);
             PrintVirtualCamera("CurrentColorCamera", coordinatesSettings.CurrentColorCamera);
+            PrintVirtualCamera("CustomCamera", coordinatesSettings.CustomCamera);
+            Console.WriteLine("    MarkerOrtho:");
+            Console.WriteLine("      SamplingDistance: {0}", coordinatesSettings.MarkerOrtho.SamplingDistance);
+            Console.WriteLine("      DefaultSamplingDistance: {0}", coordinatesSettings.MarkerOrtho.DefaultSamplingDistance);
+            Console.WriteLine("      OriginDistance: {0}", coordinatesSettings.MarkerOrtho.OriginDistance);
+            Console.WriteLine("      DefaultOriginDistance: {0}", coordinatesSettings.MarkerOrtho.DefaultOriginDistance);
         }
 
         public void PrintCalibrationSettings(PhoXiCalibrationSettings calibrationSettings, string source)

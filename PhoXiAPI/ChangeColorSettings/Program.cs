@@ -166,7 +166,9 @@ class Program {
             }
 
             //Enable ComputeCustomWhiteBalance setting
-            _phoXiDevice.ColorSettings.WhiteBalance.ComputeCustomWhiteBalance = true;
+            var ColorSettings = _phoXiDevice.ColorSettings;
+            ColorSettings.WhiteBalance.ComputeCustomWhiteBalance = true;
+            _phoXiDevice.ColorSettings = ColorSettings;
             if(!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
@@ -187,19 +189,15 @@ class Program {
             //The computed white balance factors are NOT updated in ColorSettings white balance structure
             //but are present in acquired frame info structure
             Console.WriteLine("Computed white balance factors:");
-            Console.WriteLine("R: {0}", frame.Info.BalanceRGB.x);
-            Console.WriteLine("G: {0}", frame.Info.BalanceRGB.y);
-            Console.WriteLine("B: {0}", frame.Info.BalanceRGB.z);
+            Console.WriteLine("R: {0}", (double)frame.Info.BalanceRGB.x);
+            Console.WriteLine("G: {0}", (double)frame.Info.BalanceRGB.y);
+            Console.WriteLine("B: {0}", (double)frame.Info.BalanceRGB.z);
 
             //If white balance settings are acceprable, they can be made persistent by setting them 
             //into ColorSetting structure and disabling ComputeCustomWhiteBalance setting
-            _phoXiDevice.ColorSettings.WhiteBalance.BalanceRGB = frame.Info.BalanceRGB;
-            if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
-            {
-                throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
-            }
-
-            _phoXiDevice.ColorSettings.WhiteBalance.ComputeCustomWhiteBalance = false;
+            ColorSettings.WhiteBalance.BalanceRGB = frame.Info.BalanceRGB;
+            ColorSettings.WhiteBalance.ComputeCustomWhiteBalance = false;
+            _phoXiDevice.ColorSettings = ColorSettings;
             if (!_phoXiDevice.ColorSettingsFeature.isLastOperationSuccessful())
             {
                 throw new Exception(_phoXiDevice.ColorSettingsFeature.GetLastErrorMessage());
@@ -233,14 +231,25 @@ class Program {
                 throw new Exception(_phoXiDevice.TriggerModeFeature.GetLastErrorMessage());
             }
 
-            _phoXiDevice.OutputSettings.SendColorCameraImage = true;
-            if(_phoXiDevice.MotionCam.OperationMode == PhoXiOperationMode.Value.Camera)
+            var OutputSettings = _phoXiDevice.OutputSettings;
+            OutputSettings.SendColorCameraImage = true;
+            _phoXiDevice.OutputSettings = OutputSettings;
+            if (!_phoXiDevice.OutputSettingsFeature.isLastOperationSuccessful())
             {
-                _phoXiDevice.MotionCamCameraMode.TextureSource = PhoXiTextureSource.Value.Color;
+                throw new Exception(_phoXiDevice.OutputSettingsFeature.GetLastErrorMessage());
+            }
+
+            if (_phoXiDevice.MotionCam.OperationMode == PhoXiOperationMode.Value.Camera)
+            {
+                var MotionCamCameraMode = _phoXiDevice.MotionCamCameraMode;
+                MotionCamCameraMode.TextureSource = PhoXiTextureSource.Value.Color;
+                _phoXiDevice.MotionCamCameraMode = MotionCamCameraMode;
             }
             else if (_phoXiDevice.MotionCam.OperationMode == PhoXiOperationMode.Value.Scanner)
             {
-                _phoXiDevice.MotionCamScannerMode.TextureSource = PhoXiTextureSource.Value.Color;
+                var MotionCamScannerMode = _phoXiDevice.MotionCamScannerMode;
+                MotionCamScannerMode.TextureSource = PhoXiTextureSource.Value.Color;
+                _phoXiDevice.MotionCamScannerMode = MotionCamScannerMode;
             }
             else
             {
@@ -346,7 +355,20 @@ class Program {
             Console.WriteLine("    WhiteBalance:    R: {0}", (double)ColorSettings.WhiteBalance.BalanceRGB.x);
             Console.WriteLine("    WhiteBalance:    G: {0}", (double)ColorSettings.WhiteBalance.BalanceRGB.y);
             Console.WriteLine("    WhiteBalance:    B: {0}", (double)ColorSettings.WhiteBalance.BalanceRGB.z);
+            Console.WriteLine("    RemoveFalseColors:  {0}", ColorSettings.RemoveFalseColors);
+            Console.WriteLine("    ROIMode:            {0}", Enum.GetName(typeof(PhoXiColorROIMode.Value), (int)ColorSettings.ROIMode));
+            PrintPoint(       "    ROI: Min:          ", ColorSettings.ROI.Min);
+            PrintPoint(       "    ROI: Max:          ", ColorSettings.ROI.Max);
         }
+
+        public void PrintPoint(string name, Point2_32i point)
+        {
+            Console.WriteLine("{0} [{1}; {2}]",
+                name,
+                (int)point.x,
+                (int)point.y);
+        }
+
         public PhoXiExamples()
         {
             try
