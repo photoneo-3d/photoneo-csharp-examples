@@ -54,6 +54,9 @@ class Program
             //LaserPower values: possible from 0 - 4095, recommended 800 - 4095
             currentGeneralSettings.LaserPower = 1650;
 
+            //Iso possible values: 50, 60, 75, 90, 150, 180, default 90
+            currentGeneralSettings.Iso = 75;
+
             //MaximumFPS values: 0 - 60
             currentGeneralSettings.MaximumFPS = 1.12;
 
@@ -462,10 +465,15 @@ class Program
             Console.WriteLine("    OperationMode: {0}",
                 Enum.GetName(typeof(PhoXiOperationMode.Value), (int)motionCam.OperationMode));
             Console.WriteLine("    LaserPower: {0}", motionCam.LaserPower);
+            Console.WriteLine("    LEDPower: {0}", motionCam.LEDPower);
+            Console.WriteLine("    Iso: {0}", motionCam.Iso);
             Console.WriteLine("    MaximumFPS: {0}", motionCam.MaximumFPS);
             Console.WriteLine("    Hardware Trigger: {0}", motionCam.HardwareTrigger);
             Console.WriteLine("    Hardware Trigger Signal: {0}",
                 Enum.GetName(typeof(PhoXiHardwareTriggerSignal.Value), (int)motionCam.HardwareTriggerSignal));
+            Console.WriteLine("    ProjectionOffsetLeft: {0}", motionCam.ProjectionOffsetLeft);
+            Console.WriteLine("    ProjectionOffsetRight: {0}", motionCam.ProjectionOffsetLeft);
+
         }
 
         public void PrintMotionCamCameraMode(PhoXiMotionCamCameraMode cameraMode)

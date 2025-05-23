@@ -367,6 +367,7 @@ namespace WinFormsNoCMake
                 (double)frameInfo.SensorPosition.y,
                 (double)frameInfo.SensorPosition.z);
             LogLine("    Total scan count: {0}", frameInfo.TotalScanCount);
+            LogLine("    Marker dot status: {0}", frameInfo.MarkerDots.Status);
         }
 
         private void PrintFrameData(Frame frame)
@@ -416,6 +417,30 @@ namespace WinFormsNoCMake
                     frame.Texture.Size.Width,
                     frame.Texture.Size.Height,
                     Texture32f.GetElementName());
+            }
+
+            if (!frame.TextureRGB.Empty())
+            {
+                LogLine("    Texture RGB:     ({0} x {1}) Type: {2}",
+                    frame.TextureRGB.Size.Width,
+                    frame.TextureRGB.Size.Height,
+                    TextureRGB16.GetElementName());
+            }
+
+            if (!frame.ColorCameraImage.Empty())
+            {
+                LogLine("    ColorCameraImage RGB:     ({0} x {1}) Type: {2}",
+                    frame.ColorCameraImage.Size.Width,
+                    frame.ColorCameraImage.Size.Height,
+                    TextureRGB16.GetElementName());
+            }
+
+            if (!frame.EventMap.Empty())
+            {
+                LogLine("    EventMap:     ({0} x {1}) Type: {2}",
+                    frame.EventMap.Size.Width,
+                    frame.EventMap.Size.Height,
+                    EventMap32f.GetElementName());
             }
         }
 

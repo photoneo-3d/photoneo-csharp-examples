@@ -839,7 +839,7 @@ class Program {
             _phoXiDevice.Disconnect(entry == 1);
             //The call PhoXiDevice without Logout will be called automatically by destructor
         }
-        
+
         public void PrintFrameInfo(Frame frame)
         {
             var frameInfo = frame.Info;
@@ -865,6 +865,7 @@ class Program {
                 (double)frameInfo.CurrentCameraPosition.z);
             Console.WriteLine("    Filename path: {0}", frameInfo.FilenamePath);
             Console.WriteLine("    HW ID: {0}", frameInfo.HWIdentification);
+            Console.WriteLine("    Marker dot status: {0}", frameInfo.MarkerDots.Status);
         }
 
         public void PrintFrameData(Frame frame)
@@ -929,7 +930,7 @@ class Program {
                 Console.WriteLine("    TextureRGB:     ({0} x {1}) Type: {2}",
                     frame.TextureRGB.Size.Width,
                     frame.TextureRGB.Size.Height,
-                    Texture32f.GetElementName());
+                    TextureRGB16.GetElementName());
             }
 
             if (!frame.ColorCameraImage.Empty())
@@ -937,7 +938,15 @@ class Program {
                 Console.WriteLine("    ColorCameraImage:     ({0} x {1}) Type: {2}",
                     frame.ColorCameraImage.Size.Width,
                     frame.ColorCameraImage.Size.Height,
-                    Texture32f.GetElementName());
+                    TextureRGB16.GetElementName());
+            }
+
+            if (!frame.EventMap.Empty())
+            {
+                Console.WriteLine("    EventMap:     ({0} x {1}) Type: {2}",
+                    frame.EventMap.Size.Width,
+                    frame.EventMap.Size.Height,
+                    EventMap32f.GetElementName());
             }
         }
 
@@ -958,6 +967,7 @@ class Program {
             Console.WriteLine("    MaximumFPS: {0}", capturingSettings.MaximumFPS);
             Console.WriteLine("    LaserPower: {0}", capturingSettings.LaserPower);
             Console.WriteLine("    LEDPower: {0}", capturingSettings.LEDPower);
+            Console.WriteLine("    Iso: {0}", capturingSettings.Iso);
             Console.WriteLine("    ProjectionOffsetLeft: {0}", capturingSettings.ProjectionOffsetLeft);
             Console.WriteLine("    ProjectionOffsetRight: {0}", capturingSettings.ProjectionOffsetLeft);
             Console.WriteLine("    HardwareTrigger: {0}", capturingSettings.HardwareTrigger);
