@@ -57,14 +57,33 @@ class Program {
             return;
         }
 
-
-        var currentGeneralSettings = phoXiDevice.MotionCam;
-        currentGeneralSettings.MaintenanceMode = PhoXiMaintenanceMode.Value.Auto;
-        phoXiDevice.MotionCam = currentGeneralSettings;
-
-        if (phoXiDevice.MotionCam.MaintenanceMode != PhoXiMaintenanceMode.Value.Auto)
+        if (phoXiDevice.GetType() == PhoXiDeviceType.Value.MotionCam3D)
         {
-            Console.WriteLine("Device does not support MaintenanceMode!");
+            var currentGeneralSettings = phoXiDevice.MotionCam;
+            currentGeneralSettings.MaintenanceMode = PhoXiMaintenanceMode.Value.Auto;
+            phoXiDevice.MotionCam = currentGeneralSettings;
+
+            if (phoXiDevice.MotionCam.MaintenanceMode != PhoXiMaintenanceMode.Value.Auto)
+            {
+                Console.WriteLine("Device does not support MaintenanceMode!");
+                return;
+            }
+        }
+        else if (phoXiDevice.GetType() == PhoXiDeviceType.Value.PhoXiScanner)
+        {
+            var currentCapturingSettings = phoXiDevice.CapturingSettings;
+            currentCapturingSettings.MaintenanceMode = PhoXiMaintenanceMode.Value.Auto;
+            phoXiDevice.CapturingSettings = currentCapturingSettings;
+
+            if (phoXiDevice.CapturingSettings.MaintenanceMode != PhoXiMaintenanceMode.Value.Auto)
+            {
+                Console.WriteLine("Device does not support MaintenanceMode!");
+                return;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Device does not support MaintenanceMode! - Unknown device type");
             return;
         }
 

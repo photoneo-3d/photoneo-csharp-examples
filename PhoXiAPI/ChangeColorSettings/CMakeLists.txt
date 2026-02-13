@@ -30,9 +30,11 @@ else()
 endif()
 
 # Set the .NET Framework version for the executable.
-set_property(TARGET ChangeColorSettingsExample_CSharp PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.0")
-# Set the executable to be 32-bit.
+set_property(TARGET ChangeColorSettingsExample_CSharp PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
+# Set the console application.
 set_property(TARGET ChangeColorSettingsExample_CSharp PROPERTY WIN32_EXECUTABLE FALSE)
+# Set the executable to be 64-bit.
+set_property(TARGET ChangeColorSettingsExample_CSharp PROPERTY VS_GLOBAL_Prefer32Bit "false")
 # Add assembly reference for SaveTexture
 set_property(TARGET ChangeColorSettingsExample_CSharp PROPERTY VS_DOTNET_REFERENCES "System.Drawing")
 # Allow unsafe operations in SaveTexture example

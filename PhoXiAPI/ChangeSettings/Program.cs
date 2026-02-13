@@ -96,7 +96,7 @@ class Program {
             //CodingQuality values: 1 is Fast, 2 is High, 3 is Ultra
             changedCapturingSettings.CodingQuality = 1;
 
-            //TextureSource values: 1 is Computed, 2 is LED, 3 is Laser, 4 is Focus
+            //TextureSource values: 1 is Computed, 2 is LED, 3 is Laser, 4 is Focus, 5 is Color, 6 is Computed (Enhanced), 7 is Laser (Enhanced)
             changedCapturingSettings.TextureSource = 3;
 
             //SinglePatternExposure values: 10.24 / 14.336 / 20.48 / 24.576 / 30.72 / 34.816 / 40.96 / 49.152 / 75.776 / 79.872 / 90.112 / 100.352
@@ -129,6 +129,9 @@ class Program {
 
             //HardwareTriggerSignal values: Falling / Rising / Both
             changedCapturingSettings.HardwareTriggerSignal = PhoXiHardwareTriggerSignal.Value.Falling;
+
+            //HDR values: Off / Medium / Strong - since fw version 1.16.0 and Gen3
+            changedCapturingSettings.Hdr = PhoXiHDR.Value.Strong;
 
             //Send settings
             _phoXiDevice.CapturingSettings = changedCapturingSettings;
@@ -385,6 +388,8 @@ class Program {
             Console.WriteLine("    MaximumFPS: {0}", capturingSettings.MaximumFPS);
             Console.WriteLine("    LaserPower: {0}", capturingSettings.LaserPower);
             Console.WriteLine("    LEDPower: {0}", capturingSettings.LEDPower);
+            Console.WriteLine("    Iso: {0}", capturingSettings.Iso);
+            Console.WriteLine("    Hdr: {0}", capturingSettings.Hdr);
             Console.WriteLine("    ProjectionOffsetLeft: {0}", capturingSettings.ProjectionOffsetLeft);
             Console.WriteLine("    ProjectionOffsetRight: {0}", capturingSettings.ProjectionOffsetLeft);
             Console.WriteLine("    HardwareTrigger: {0}", capturingSettings.HardwareTrigger);

@@ -968,6 +968,7 @@ class Program {
             Console.WriteLine("    LaserPower: {0}", capturingSettings.LaserPower);
             Console.WriteLine("    LEDPower: {0}", capturingSettings.LEDPower);
             Console.WriteLine("    Iso: {0}", capturingSettings.Iso);
+            Console.WriteLine("    Hdr: {0}", capturingSettings.Hdr);
             Console.WriteLine("    ProjectionOffsetLeft: {0}", capturingSettings.ProjectionOffsetLeft);
             Console.WriteLine("    ProjectionOffsetRight: {0}", capturingSettings.ProjectionOffsetLeft);
             Console.WriteLine("    HardwareTrigger: {0}", capturingSettings.HardwareTrigger);

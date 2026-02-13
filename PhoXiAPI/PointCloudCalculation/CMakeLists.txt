@@ -30,8 +30,10 @@ else()
 endif()
 
 # Set the .NET Framework version for the executable.
-set_property(TARGET PointCloudCalculationExample_CSharp PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.0")
-# Set the executable to be 32-bit.
+set_property(TARGET PointCloudCalculationExample_CSharp PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.8")
+# Set the console application.
 set_property(TARGET PointCloudCalculationExample_CSharp PROPERTY WIN32_EXECUTABLE FALSE)
+# Set the executable to be 64-bit.
+set_property(TARGET PointCloudCalculationExample_CSharp PROPERTY VS_GLOBAL_Prefer32Bit "false")
 # Set the C# language version (defaults to 3.0).
 set(CMAKE_CSharp_FLAGS "/langversion:latest")

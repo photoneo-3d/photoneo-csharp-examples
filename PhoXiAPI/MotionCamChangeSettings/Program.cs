@@ -201,7 +201,7 @@ class Program
             //CodingQuality values: Fast / High / Ultra
             currentScannerMode.CodingQuality = PhoXiCodingQuality.Value.Fast;
 
-            //TextureSource values: LED / Computed / Laser / Focus
+            //TextureSource values: LED / Computed / Computed (Enhanced) / Laser / Laser (Enhanced) / Focus / Color
             currentScannerMode.TextureSource = PhoXiTextureSource.Value.LED;
 
             //Get all supported values
