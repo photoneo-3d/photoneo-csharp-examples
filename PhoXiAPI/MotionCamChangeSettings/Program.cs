@@ -388,7 +388,7 @@ class Program
             customTransformation.Translation = translation;
             currentCoordinatesSettings.CustomTransformation = customTransformation;
 
-            //CoordinateSpace values: 1 is CameraSpace, 3 is MarkerSpace, 4 is RobotSpace, 5 is CustomSpace
+            //CoordinateSpace values: 1 is CameraSpace, 3 is MarkerSpace, 4 is RobotSpace, 5 is CustomSpace, 6 is PrimaryCameraSpace
             currentCoordinatesSettings.CoordinateSpace = PhoXiCoordinateSpace.Value.CameraSpace;
 
             //Recognize Markers values: false is OFF, true is ON
