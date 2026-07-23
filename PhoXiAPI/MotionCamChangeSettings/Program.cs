@@ -557,7 +557,7 @@ class Program
                 calibrationSettings.PixelSize.Width,
                 calibrationSettings.PixelSize.Height);
             PrintMatrix("CameraMatrix", calibrationSettings.CameraMatrix);
-            PrintDistortionCoefficients("DistortionCoefficients", calibrationSettings.GetDistortionCoefficients());
+            PrintDistortionCoefficients("DistortionCoefficients", calibrationSettings.DistortionCoefficients);
         }
 
         public void PrintCoordinateTransformation(PhoXiCoordinateTransformation transformation)
@@ -657,7 +657,7 @@ class Program
         public void PrintPerspectiveSettings(PhoXiPerspectiveSettings settings)
         {
             PrintMatrix("PerspectiveSettings", settings.CameraMatrix);
-            PrintDistortionCoefficients("DistortionCoefficients", settings.GetDistortionCoefficients());
+            PrintDistortionCoefficients("DistortionCoefficients", settings.DistortionCoefficients);
         }
 
         public void PrintDistortionCoefficients(string name, double[] distCoeffs)

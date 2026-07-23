@@ -1,5 +1,5 @@
 ========================================================================
-    CONSOLE APPLICATION : ChangeSettingsExample Project Overview
+    CONSOLE APPLICATION : ChangeColorSettingsExample Project Overview
 ========================================================================
 
 Demonstrates the extended functionality of PhoXi devices.

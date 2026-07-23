@@ -793,6 +793,22 @@ class Program {
             {
                 Console.WriteLine("Could not save sample frame as PLY to {0} !", sampleFramePly);
             }
+
+            //You can also configure the PLY save via SaveAsPlyOptions for finer control,
+            //for example to also include the reconstructed Mesh and the EventMap.
+            //SaveAsPlyOptions defaults to Binary with every Store* flag set to false,
+            //so opt into the data you actually want.
+            var sampleFramePlyWithAllComponents = outputFolder + "SampleFrameWithAllComponents.ply";
+            var plyOptions = new SaveAsPlyOptions();
+            plyOptions.EnableAll();
+            if (_sampleFrame.SaveAsPly(sampleFramePlyWithAllComponents, plyOptions))
+            {
+                Console.WriteLine("Saved sample frame with all components as PLY to: {0}", sampleFramePlyWithAllComponents);
+            }
+            else
+            {
+                Console.WriteLine("Could not save sample frame with all components as PLY to {0} !", sampleFramePlyWithAllComponents);
+            }
             //You can save scans to any format, you only need to specify path + file name
             //API will look at extension and save the scan in the correct format
             //You can define which options to save (PointCloud, DepthMap, ...) in PhoXi Control application -> Saving options
@@ -1034,7 +1050,7 @@ class Program {
                 calibrationSettings.PixelSize.Width,
                 calibrationSettings.PixelSize.Height);
             PrintMatrix("    CameraMatrix", calibrationSettings.CameraMatrix);
-            PrintDistortionCoefficients("DistortionCoefficients", calibrationSettings.GetDistortionCoefficients());
+            PrintDistortionCoefficients("DistortionCoefficients", calibrationSettings.DistortionCoefficients);
         }
 
         public void PrintCoordinateTransformation(PhoXiCoordinateTransformation transformation)
@@ -1182,8 +1198,9 @@ class Program {
 
         public void PrintPerspectiveSettings(PhoXiPerspectiveSettings settings)
         {
-            PrintMatrix("PerspectiveSettings", settings.CameraMatrix);
-            PrintDistortionCoefficients("DistortionCoefficients", settings.GetDistortionCoefficients());
+            Console.WriteLine("PerspectiveSettings: ");
+            PrintMatrix("    CameraMatrix", settings.CameraMatrix);
+            PrintDistortionCoefficients("DistortionCoefficients", settings.DistortionCoefficients);
         }
 
         public void PrintDistortionCoefficients(string name, double[] distCoeffs)
