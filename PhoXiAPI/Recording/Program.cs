@@ -47,7 +47,7 @@ class Program
             var recordingOptions = _phoXiDevice.RecordingOptions();
             Console.WriteLine("Current recording options:\n" + recordingOptions);
 
-            //Setup PLY recording with enabled Point Cloud, Depth Map and Texture
+            //Setup PLY recording with enabled Point Cloud, Depth Map, Texture and Mesh
             /* Note:
              * When `folder` path specified is a relative path, then it is relative to PhoXiControl working directory:
              * Windows: 'c:\Users\{user name}\AppData\Roaming\PhotoneoPhoXiControl'
@@ -63,7 +63,9 @@ class Program
                         ""enabled"": true,
                         ""point_cloud"": true,
                         ""depth_map"": true,
-                        ""texture"": true
+                        ""texture"": true,
+                        ""mesh"": true,
+                        ""mesh_min_triangle_angle"": 11.5
                     }
                 }
             }";

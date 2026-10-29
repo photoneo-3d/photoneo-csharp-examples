@@ -828,7 +828,7 @@ class Program {
             {
                 Console.WriteLine("Could not save sample frame as {0} to {1} !", tiffExtension, sampleFrameTiffFormat);
             }
-            // Overide saving options
+            // Override saving options
             var sampleFramePrawFormat = outputFolder + "OtherSampleFrame.praw";
             var prawExtension = Path.GetExtension(sampleFramePrawFormat);
             String jsonOptions = "{ \"UseCompression\": true }";

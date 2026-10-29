@@ -133,7 +133,7 @@ class Program
             //OutputTopology values: Raw / Irregular grid / Regular grid / Full grid
             currentCameraMode.OutputTopology = PhoXiOutputTopology.Value.Raw;
 
-            //CodingStrategy values: Normal / Interreflections
+            //CodingStrategy values: Normal / Interreflections / HighFrequency / Sparse
             currentCameraMode.CodingStrategy = PhoXiCodingStrategy.Value.Normal;
 
             //Set the CameraMode settings to the Device
@@ -195,7 +195,7 @@ class Program
             //ScanMultiplier values: 0-10
             currentScannerMode.ScanMultiplier = 2;
 
-            //CodingStrategy values: Normal / Interreflections
+            //CodingStrategy values: Normal / Interreflections / HighFrequency / FastNormal / FastInterreflections
             currentScannerMode.CodingStrategy = PhoXiCodingStrategy.Value.Normal;
 
             //CodingQuality values: Fast / High / Ultra
